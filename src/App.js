@@ -82,6 +82,34 @@ function App() {
   };
 
   useEffect(() => {
+    const handleOnline = () => {
+      console.log("Connected to the internet");
+    };
+
+    const handleOffline = () => {
+      alert("No connection network");
+      window.location.reload(); 
+    };
+
+    // Добавляем обработчики событий
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    // Проверка начального состояния
+    if (!navigator.onLine) {
+      alert("No connection network");
+      window.location.reload(); 
+
+    }
+
+    // Убираем обработчики событий при размонтировании компонента
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  useEffect(() => {
     if (countTrue === 0) {
       const HapticFeedbackError =
         tg.HapticFeedback.notificationOccurred("warning");
